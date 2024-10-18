@@ -1,0 +1,4 @@
+_conda gcal
+credentials.json
+token.json
+calendars/**
