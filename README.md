@@ -5,7 +5,9 @@ This app creates an annual view of your google calendar events.
 
 For some obscure reason, this feature is missing in the main app, even though people have been requesting it for at least ~7 years.
 
-![alt text](example.png)
+![light mode](example_light.png)
+
+![dark mode](example_dark.png)
 
 ## Running
 
@@ -33,3 +35,8 @@ Additionally,
 - It is limited to read-only access (SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']), meaning it cannot create, update, or delete calendar events.
 - Event visualizations are basic and might not be ideal for large-scale or highly complex schedules, as only days with events are highlighted in the generated calendar.
 - Only a static image of the calendar is generated, with no interactive features for exploring or modifying events.
+
+# TO-DOs
+
+- Modularize so light and dark share the same code
+- Add calendar as parameter so user may define which calendar to plot

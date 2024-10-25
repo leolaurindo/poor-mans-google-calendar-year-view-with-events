@@ -45,7 +45,7 @@ def get_year_events(service, calendar_id='primary', year=2024):
     
     return events_result.get('items', [])
 
-def create_yearly_calendar(events, year=2024):
+def create_yearly_calendar(events, year=2024): 
     background_color = '#2B2B2B'
     header_color = '#4A4A4A'
     non_event_day_color = '#3A3A3A'
@@ -63,7 +63,8 @@ def create_yearly_calendar(events, year=2024):
     plt.subplots_adjust(wspace=0.5, hspace=0.5)
     fig.patch.set_facecolor(background_color)
 
-    weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
+    weekdays = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+    calendar.setfirstweekday(calendar.SUNDAY)
 
     for month in range(1, 13):
         ax = axes[(month-1)//4][(month-1)%4]
@@ -72,7 +73,10 @@ def create_yearly_calendar(events, year=2024):
 
         cal = calendar.monthcalendar(year, month)
 
-        table_data = [weekdays]
+        actual_first_weekday = datetime.date(year, month, 1).weekday() 
+        shifted_weekdays = weekdays[actual_first_weekday:] + weekdays[:actual_first_weekday]
+
+        table_data = [shifted_weekdays]
         cell_colors = [[header_color]*7]
 
         for week in cal:
@@ -110,7 +114,6 @@ def create_yearly_calendar(events, year=2024):
     save_path = os.path.join('calendars', file_name)
     plt.savefig(save_path, facecolor=fig.get_facecolor(), edgecolor='none')
     plt.show()
-
 
 def main():
     parser = argparse.ArgumentParser(description='Google Calendar Event Fetcher')

@@ -55,7 +55,8 @@ def create_yearly_calendar(events, year=2024):
     fig, axes = plt.subplots(nrows=3, ncols=4, figsize=(16, 9))
     plt.subplots_adjust(wspace=0.5, hspace=0.5)
 
-    weekdays = ['S', 'M', 'T', 'W', 'T', 'F', 'S']  # Weekday abbreviations
+    weekdays = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+    calendar.setfirstweekday(calendar.SUNDAY)
 
     for month in range(1, 13):
         ax = axes[(month-1)//4][(month-1)%4]
@@ -63,8 +64,11 @@ def create_yearly_calendar(events, year=2024):
 
         cal = calendar.monthcalendar(year, month)
 
-        table_data = [weekdays] 
-        cell_colors = [['lightgrey']*7]
+        actual_first_weekday = datetime.date(year, month, 1).weekday()  
+        shifted_weekdays = weekdays[actual_first_weekday:] + weekdays[:actual_first_weekday]
+
+        table_data = [shifted_weekdays] 
+        cell_colors = [['lightgrey'] * 7]
 
         for week in cal:
             week_data = []
@@ -87,7 +91,7 @@ def create_yearly_calendar(events, year=2024):
 
         ax.set_title(calendar.month_name[month], fontsize=14)
 
-        table.scale(1.3, 1.7) 
+        table.scale(1.3, 1.7)
         for key, cell in table.get_celld().items():
             cell.set_fontsize(10)
 
@@ -98,7 +102,6 @@ def create_yearly_calendar(events, year=2024):
     save_path = os.path.join('calendars', file_name)
     plt.savefig(save_path)
     plt.show()
-
 
 def main():
     parser = argparse.ArgumentParser(description='Google Calendar Event Fetcher')
